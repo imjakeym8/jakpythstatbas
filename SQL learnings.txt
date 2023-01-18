@@ -1,0 +1,17 @@
+SELECT - select fields to include
+FROM - which table it is from 
+WHERE - filter of any sort 
+ORDER BY - sort by order.
+(please note that these commands are the proper order in SQL.)
+
+TRIM or CLEAN - remove extra spaces in the fields.
+* - means ALL fields.
+
+INSERT INTO - store data into a database.
+VALUES - value that you want to store as data.
+
+UPDATE - update data already in the database.
+SET - change into a value you want when updating data.
+
+DELETE FROM - remove data in a database.
+(WHERE as a filter can be used in most commands.)
