@@ -12,7 +12,7 @@ print(Pets().looks)
 #   background-color: blue;
 # }
 #
-# whereas, Python takes few longer lines of code, and is encouraged to assign an object to your newly created Class:
+# whereas, Python takes few longer lines of code, and is encouraged to assign a variable to your newly created Class:
 #
 # class Class():
 #   background-color = "Blue"
