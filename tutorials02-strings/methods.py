@@ -35,8 +35,17 @@ def ispresent(x, y):
     character = str(x)
     string = str(y)
     if character in string:
-        print("true")
+        print(f"true. {character} is in {string}")
     else:
-        print("false")
+        print(f"false. {character} is not in {string}")
 
-ispresent("kyk", "markyknows@gmail.com")
+def checkarray():
+    nums = [3,3,7,7,10,11,11]
+    for i in range(len(nums)-1):
+        if nums[i] != nums[i+1] and nums[i] != nums[i-1]:
+            print(nums[i])
+        else:
+            continue
+    #Result: 2
+        
+checkarray()

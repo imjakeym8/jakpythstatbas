@@ -10,7 +10,7 @@ def getlist():
 
 def start():
     number = getlist()
-    frequency = Counter(number) #Counter method counts the frequency of the number called.
+    frequency = Counter(number) #Counter method counts the frequency of the number called.  
     print(frequency)
 
 def starthis():
