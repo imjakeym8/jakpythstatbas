@@ -40,7 +40,7 @@ def ispresent(x, y):
         print(f"false. {character} is not in {string}")
 
 def checkarray():
-    nums = [3,3,7,7,10,11,11]
+    nums = [3,3,7,7,10,10,11]
     for i in range(len(nums)-1):
         if nums[i] != nums[i+1] and nums[i] != nums[i-1]:
             print(nums[i])
