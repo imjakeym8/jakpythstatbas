@@ -66,9 +66,9 @@ class LinkedList:
         
 
 my_list = LinkedList()
-my_list.append(20)
+my_list.append(1)
+my_list.append(2)
 my_list.append(3)
-my_list.append(14)
 my_list.append(4)
 my_list.display()
 my_list.swapbehind(1)

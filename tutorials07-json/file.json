@@ -1,0 +1,288 @@
+{
+   "total_messages": 9327,
+   "hourly_messages": 14,
+   "daily_messages": 333,
+   "daily_users": 50,
+   "active_users": 564,
+   "new_users": 0,
+   "active_hours": {
+      "0": 62,
+      "1": 85,
+      "2": 97,
+      "3": 57,
+      "4": 104,
+      "5": 77,
+      "6": 430,
+      "7": 464,
+      "8": 389,
+      "9": 376,
+      "10": 656,
+      "11": 550,
+      "12": 640,
+      "13": 768,
+      "14": 747,
+      "15": 843,
+      "16": 584,
+      "17": 542,
+      "18": 603,
+      "19": 386,
+      "20": 427,
+      "21": 216,
+      "22": 123,
+      "23": 101
+   },
+   "time_series": [
+      [
+         1675209600000,
+         {
+            "active_user_daily": 55,
+            "new_user_daily": 0,
+            "total_user_daily": 12049,
+            "total_messages_daily": 418
+         }
+      ],
+      [
+         1675296000000,
+         {
+            "active_user_daily": 61,
+            "new_user_daily": 0,
+            "total_user_daily": 12034,
+            "total_messages_daily": 429
+         }
+      ],
+      [
+         1675382400000,
+         {
+            "active_user_daily": 53,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 425
+         }
+      ],
+      [
+         1675468800000,
+         {
+            "active_user_daily": 59,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 621
+         }
+      ],
+      [
+         1675555200000,
+         {
+            "active_user_daily": 64,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 563
+         }
+      ],
+      [
+         1675641600000,
+         {
+            "active_user_daily": 65,
+            "new_user_daily": 0,
+            "total_user_daily": 12006,
+            "total_messages_daily": 592
+         }
+      ],
+      [
+         1675728000000,
+         {
+            "active_user_daily": 72,
+            "new_user_daily": 0,
+            "total_user_daily": 12001,
+            "total_messages_daily": 673
+         }
+      ],
+      [
+         1675814400000,
+         {
+            "active_user_daily": 64,
+            "new_user_daily": 0,
+            "total_user_daily": 12003,
+            "total_messages_daily": 669
+         }
+      ],
+      [
+         1675900800000,
+         {
+            "active_user_daily": 47,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 542
+         }
+      ],
+      [
+         1675987200000,
+         {
+            "active_user_daily": 50,
+            "new_user_daily": 0,
+            "total_user_daily": 11994,
+            "total_messages_daily": 531
+         }
+      ],
+      [
+         1676073600000,
+         {
+            "active_user_daily": 49,
+            "new_user_daily": 0,
+            "total_user_daily": 11980,
+            "total_messages_daily": 540
+         }
+      ],
+      [
+         1676160000000,
+         {
+            "active_user_daily": 35,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 144
+         }
+      ],
+      [
+         1676246400000,
+         {
+            "active_user_daily": 39,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 298
+         }
+      ],
+      [
+         1676332800000,
+         {
+            "active_user_daily": 29,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 247
+         }
+      ],
+      [
+         1676419200000,
+         {
+            "active_user_daily": 43,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 138
+         }
+      ],
+      [
+         1676505600000,
+         {
+            "active_user_daily": 44,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 195
+         }
+      ],
+      [
+         1676592000000,
+         {
+            "active_user_daily": 41,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 149
+         }
+      ],
+      [
+         1676678400000,
+         {
+            "active_user_daily": 50,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 204
+         }
+      ],
+      [
+         1676764800000,
+         {
+            "active_user_daily": 45,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 173
+         }
+      ],
+      [
+         1676851200000,
+         {
+            "active_user_daily": 43,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 194
+         }
+      ],
+      [
+         1676937600000,
+         {
+            "active_user_daily": 69,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 307
+         }
+      ],
+      [
+         1677024000000,
+         {
+            "active_user_daily": 54,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 243
+         }
+      ],
+      [
+         1677110400000,
+         {
+            "active_user_daily": 69,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 413
+         }
+      ],
+      [
+         1677196800000,
+         {
+            "active_user_daily": 52,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 165
+         }
+      ],
+      [
+         1677283200000,
+         {
+            "active_user_daily": 35,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 122
+         }
+      ],
+      [
+         1677369600000,
+         {
+            "active_user_daily": 27,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 54
+         }
+      ],
+      [
+         1677456000000,
+         {
+            "active_user_daily": 36,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 124
+         }
+      ],
+      [
+         1677542400000,
+         {
+            "active_user_daily": 37,
+            "new_user_daily": 0,
+            "total_user_daily": 0,
+            "total_messages_daily": 154
+         }
+      ]
+   ]
+}
