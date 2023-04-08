@@ -55,7 +55,12 @@ total_days_data = int(math.fsum(days_data)) #Output: 9327, SAME
 
 sa = gspread.service_account()
 sh = sa.open("TestingSheets")
-wks = sh.add_worksheet(title="Combot Integration Test", rows=4, cols=10, index=10)
+wks = sh.worksheet("Manual")
+#sh.add_worksheet(title="Combot Integration Test", rows=4, cols=10)
+
+#worksheet = sh.worksheet("Combot Integration Test")
 
 # -- COMPUTATION SECTION --
-
+value = wks.acell('A1').value
+wks.update('B1', value)
+wks.unmerge_cells('A1:B1')
