@@ -309,6 +309,7 @@ for x in data["time_series"]:
     a_array.append(x[1]["a"])
     b_array.append(x[0])
 
+# prints each element in the list in string form without the last three characters of the list item
 for each_item in range(len(b_array)-1):
     print(str(b_array[each_item])[:10])
 

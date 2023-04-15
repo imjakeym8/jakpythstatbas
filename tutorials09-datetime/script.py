@@ -10,15 +10,18 @@ tun = datetime.utcnow() #returns your system local datetime converted to UTC wit
 now_utc = tun.replace(tzinfo=UTC) #using .replace() method to add a timezone value, making it time-zone aware.
 tnz = datetime.now(UTC9) #more efficient way of converting timezones
 
-print(t)
-print(tn)
-print(tun)
-print(UTC)
-print(UTC8)
-print(now_utc)
-print(tnz)
+print(t) # Output: 2023-04-13 16:43:08.082586
+print(tn) # Output: 2023-04-13 16:43:08.082586
+print(tun) # Output: 2023-04-13 08:43:08.082585
+print(UTC) # Output: UTC
+print(UTC8) # Output: UTC+08:00
+print(now_utc) # Output: 2023-04-13 08:43:08.082585+00:00
+print(tnz) # Output: 2023-04-13 17:43:08.082585+09:00
 
-formatted_time = now_utc.strftime('%A, %B %d, %Y %I:%M:%S %z %Z') #formats the datetime object into any way you desire, given the proper format codes: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
-print((formatted_time))
-str_time = datetime.strptime(formatted_time,'%A, %B %d, %Y %I:%M:%S %z %Z') #parses the datetime string to an datetime object
-print(str_time)
+#formats the datetime object into any way you desire, given the proper format codes: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes
+formatted_time = now_utc.strftime('%A, %B %d, %Y %I:%M:%S %z %Z') 
+print((formatted_time)) # Output: Thursday, April 13, 2023 08:43:08 +0000 UTC
+
+#parses the datetime string to an datetime object
+str_time = datetime.strptime(formatted_time,'%A, %B %d, %Y %I:%M:%S %z %Z') 
+print(str_time) # Output: 2023-04-13 08:43:08+00:00

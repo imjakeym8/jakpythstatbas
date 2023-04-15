@@ -1,6 +1,7 @@
 import json
 import gspread
 import math
+from datetime import datetime
 
 # -- FILE MANAGEMENT SECTION --
 # Downloaded a fresh copy of my JSON file in this specific directory
@@ -50,8 +51,9 @@ total_hours_data = int(math.fsum(hours_data)) #Output: 9327, SAME
 total_active = int(math.fsum(active_users)) #Output: 1387, NOT SAME
 total_days_data = int(math.fsum(days_data)) #Output: 9327, SAME
 
+months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
 
-# GOOGLE SHEETS SECTION
+# GOOGLE SHEETS CREATION
 
 sa = gspread.service_account()
 sh = sa.open("TestingSheets")
@@ -61,6 +63,23 @@ wks = sh.worksheet("Manual")
 #worksheet = sh.worksheet("Combot Integration Test")
 
 # -- COMPUTATION SECTION --
-value = wks.acell('A1').value
-wks.update('B1', value)
-wks.unmerge_cells('A1:B1')
+
+# R = 1
+# C = 1
+# for each_item in months:
+#     wks.update_cell(R, C, each_item)
+#     R += 1
+
+## wks.format("A2:A13", {
+##     'verticalAlignment': 'MIDDLE',
+##     'horizontalAlignment': 'CENTER',
+##     'textFormat': {
+##         'fontFamily': 'Default (Arial)'
+##     }
+## })
+
+# STRING FORMATTING SECTION
+
+xxx = datetime.fromtimestamp(1675296000)
+
+print(xxx)
