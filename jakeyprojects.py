@@ -6,8 +6,11 @@ class CombotData:
     def __init__(self, combotfile):
         self.combotfile = combotfile
     
-    def 
-
+    def __format(self):
+        with open(self.combotfile) as f:
+            data = json.load(f)
+        
+       
 class GsheetEncoder(CombotData):
     def __init__(self):
         super().__init__()
