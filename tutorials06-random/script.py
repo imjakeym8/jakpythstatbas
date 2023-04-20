@@ -20,3 +20,4 @@ for i in range(int(weeks)+1):
 for key, value in weekdays.items():
     print(key, value)
 
+print(listed_weekdays)

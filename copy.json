@@ -34,6 +34,7 @@
     "time_series": [
         [
             "March 01 2023",
+            "Wednesday",
             {
                 "active_user_daily": 2,
                 "new_user_daily": 0,
@@ -43,6 +44,7 @@
         ],
         [
             "March 02 2023",
+            "Thursday",
             {
                 "active_user_daily": 4,
                 "new_user_daily": 0,
@@ -52,6 +54,7 @@
         ],
         [
             "March 03 2023",
+            "Friday",
             {
                 "active_user_daily": 3,
                 "new_user_daily": 2,
@@ -61,6 +64,7 @@
         ],
         [
             "March 04 2023",
+            "Saturday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 0,
@@ -70,6 +74,7 @@
         ],
         [
             "March 05 2023",
+            "Sunday",
             {
                 "active_user_daily": 3,
                 "new_user_daily": 0,
@@ -79,6 +84,7 @@
         ],
         [
             "March 06 2023",
+            "Monday",
             {
                 "active_user_daily": 3,
                 "new_user_daily": 1,
@@ -88,6 +94,7 @@
         ],
         [
             "March 07 2023",
+            "Tuesday",
             {
                 "active_user_daily": 3,
                 "new_user_daily": 4,
@@ -97,6 +104,7 @@
         ],
         [
             "March 08 2023",
+            "Wednesday",
             {
                 "active_user_daily": 6,
                 "new_user_daily": 0,
@@ -106,6 +114,7 @@
         ],
         [
             "March 09 2023",
+            "Thursday",
             {
                 "active_user_daily": 5,
                 "new_user_daily": 9,
@@ -115,6 +124,7 @@
         ],
         [
             "March 10 2023",
+            "Friday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 1,
@@ -124,6 +134,7 @@
         ],
         [
             "March 11 2023",
+            "Saturday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 0,
@@ -133,6 +144,7 @@
         ],
         [
             "March 12 2023",
+            "Sunday",
             {
                 "active_user_daily": 5,
                 "new_user_daily": 1,
@@ -142,6 +154,7 @@
         ],
         [
             "March 13 2023",
+            "Monday",
             {
                 "active_user_daily": 6,
                 "new_user_daily": 4,
@@ -151,6 +164,7 @@
         ],
         [
             "March 14 2023",
+            "Tuesday",
             {
                 "active_user_daily": 3,
                 "new_user_daily": 1,
@@ -160,6 +174,7 @@
         ],
         [
             "March 15 2023",
+            "Wednesday",
             {
                 "active_user_daily": 4,
                 "new_user_daily": 1,
@@ -169,6 +184,7 @@
         ],
         [
             "March 16 2023",
+            "Thursday",
             {
                 "active_user_daily": 2,
                 "new_user_daily": 1,
@@ -178,6 +194,7 @@
         ],
         [
             "March 17 2023",
+            "Friday",
             {
                 "active_user_daily": 2,
                 "new_user_daily": 5,
@@ -187,6 +204,7 @@
         ],
         [
             "March 18 2023",
+            "Saturday",
             {
                 "active_user_daily": 7,
                 "new_user_daily": 1,
@@ -196,6 +214,7 @@
         ],
         [
             "March 19 2023",
+            "Sunday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 0,
@@ -205,6 +224,7 @@
         ],
         [
             "March 20 2023",
+            "Monday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 0,
@@ -214,6 +234,7 @@
         ],
         [
             "March 21 2023",
+            "Tuesday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 2,
@@ -223,6 +244,7 @@
         ],
         [
             "March 22 2023",
+            "Wednesday",
             {
                 "active_user_daily": 0,
                 "new_user_daily": 0,
@@ -232,6 +254,7 @@
         ],
         [
             "March 23 2023",
+            "Thursday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 3,
@@ -241,6 +264,7 @@
         ],
         [
             "March 24 2023",
+            "Friday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 0,
@@ -250,6 +274,7 @@
         ],
         [
             "March 25 2023",
+            "Saturday",
             {
                 "active_user_daily": 3,
                 "new_user_daily": 0,
@@ -259,6 +284,7 @@
         ],
         [
             "March 26 2023",
+            "Sunday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 2,
@@ -268,6 +294,7 @@
         ],
         [
             "March 27 2023",
+            "Monday",
             {
                 "active_user_daily": 4,
                 "new_user_daily": 0,
@@ -277,6 +304,7 @@
         ],
         [
             "March 28 2023",
+            "Tuesday",
             {
                 "active_user_daily": 2,
                 "new_user_daily": 2,
@@ -286,6 +314,7 @@
         ],
         [
             "March 29 2023",
+            "Wednesday",
             {
                 "active_user_daily": 1,
                 "new_user_daily": 1,
@@ -295,6 +324,7 @@
         ],
         [
             "March 30 2023",
+            "Thursday",
             {
                 "active_user_daily": 2,
                 "new_user_daily": 1,
@@ -304,6 +334,7 @@
         ],
         [
             "March 31 2023",
+            "Friday",
             {
                 "active_user_daily": 5,
                 "new_user_daily": 3,
