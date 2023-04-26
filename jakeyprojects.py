@@ -1,5 +1,5 @@
 import json
-from datetime import datetime, timezone, timedelta
+from datetime import datetime, timezone
 from gspread.auth import service_account
 from math import fsum
 
@@ -24,6 +24,7 @@ class CombotData:
         self.hourly_messages1 = []
         self.hourly_messages2 = []
 
+    # ✅
     def __format(self):
         with open(url) as f:
             data = json.load(f)
@@ -52,7 +53,8 @@ class CombotData:
         with open(url, 'w') as w:
             json.dump(data, w, indent=4)
 
-
+    # Issues:
+    # Most and least active hours will not take account two or more hours that have the same most/least messages by the hour.
     def _gather(self): #parameter values should include an option to filter which data should be gathered.
         with open(self.combotfile) as f:
             data = json.load(f)            
@@ -135,9 +137,10 @@ class CombotData:
             
             for key, each_day in self.weekdays.items():
                 if each_day == self.most_active_day:
-                    return f"{key} is the most active day with {self.most_active_day} messages."
-                if each_day == self.least_active_day:
-                    return f"{key} is the least active day with {self.least_active_day} messages."
+                    self.most_active_day = key
+                elif each_day == self.least_active_day:
+                    self.least_active_day = key
+            return self.weekdays, self.most_active_day, self.least_active_day
 
         print(get_dates())
         print(get_d_messages())
@@ -146,7 +149,7 @@ class CombotData:
         print(get_h_messages())
         print(get_most_hours())
         print(get_least_hours())
-        print(get_wd_messages())           
+        print(get_wd_messages())
        
 class GsheetEncoder(CombotData):
     def __init__(self):
@@ -169,4 +172,4 @@ class GsheetEncoder(CombotData):
 file = 'copy.json'
 jsoncombot = CombotData(file)
 
-print(jsoncombot._gather())
+jsoncombot._gather()
