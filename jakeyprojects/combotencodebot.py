@@ -143,7 +143,7 @@ class CombotData:
                     self.outer_instance.least_active_day = key
 
         # Please add an option parameter to filter what not to gather ✍️
-        def gather(self, showdata=None):
+        def gather(self, showdata=False):
             self.get_dates()
             self.get_d_messages()
             self.get_h_messages()
@@ -154,15 +154,17 @@ class CombotData:
             self.get_least_hours()
             self.get_most_active_day()
             self.get_least_active_day()
-            while True:
-                showdata = input("Show data? Y or N? ")
-                if showdata == 'Y':
-                    self.showdata()
-                    break
-                elif showdata == 'N':
-                    break
-                else:
-                    print("Invalid input.")
+            if showdata == True:
+                self.showdata()
+#            while True:
+#                showdata = input("Show data? Y or N? ")
+#                if showdata == 'Y':
+#                    self.showdata()
+#                    break
+#                elif showdata == 'N':
+#                    break
+#                else:
+#                    print("Invalid input.")
 
         # ✅
         def showdata(self):
@@ -180,7 +182,9 @@ class CombotData:
                 print(self.outer_instance.most_active_hours)
             if self.outer_instance.least_active_hours:
                 print(self.outer_instance.least_active_hours)
-            if self.outer_instance.weekday_messages:
+            if self.outer_instance.weekday_messages == {'Sunday': 0, 'Monday': 0, 'Tuesday': 0, 'Wednesday': 0, 'Thursday': 0, 'Friday': 0, 'Saturday': 0}:
+                pass
+            else:
                 print(self.outer_instance.weekday_messages)
             if self.outer_instance.most_active_day:
                 print(self.outer_instance.most_active_day)
@@ -201,16 +205,82 @@ class GsheetEncoder(CombotData):
         self.sh = self.auth.open(gsheet_name)
         self.wks = self.sh.worksheet(gsheet_worksheet)
 
-    def data_range(self, monthbegin=1, daybegin=1):
-        formatted_month = datetime.strptime(str(monthbegin), '%m').strftime('%B')
-        formatted_day = datetime.strptime(str(daybegin), '%d').strftime('%d')
-        var_date = f"{formatted_month} {formatted_day}"
-        dates_dict = dict(zip(self.dates, self.daily_messages))
+    def data_range(self, monthbegin, daybegin, duration=None, yearbegin=None):
+        while True:
+            if duration == "monthly":
+                if monthbegin in [1, 3, 5, 7, 8, 10, 12]:
+                    duration = 31
+                    break
+                elif monthbegin in [4, 6, 9, 11]:
+                    duration = 30
+                    break
+                elif monthbegin == 2 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2:
+                    if yearbegin % 4 == 0:
+                        duration = 29
+                        break
+                    else:
+                        duration = 28
+                        break
+                else:
+                    try:
+                        yearbegin = int(input("Please add a year value (YY): "))
+                        if len(str(yearbegin)) != 2 and isinstance(yearbegin, int) == False:
+                            raise ValueError("Please make sure the value is YY.")
+                        elif len(str(yearbegin)) != 2 or isinstance(yearbegin, int) == False:
+                            raise ValueError("Please make sure the value is YY.")
+                    except ValueError:
+                        print("Invalid input. Please enter a valid year value.")
+            elif duration == "weekly":
+                if monthbegin == 2 and isinstance(yearbegin, int) == False and len(str(yearbegin)) != 2:
+                    try:
+                        yearbegin = int(input("Please add a year value (YY): "))
+                        if len(str(yearbegin)) != 2 and isinstance(yearbegin, int) == False:
+                            raise ValueError("Please make sure the value is YY.")
+                        elif len(str(yearbegin)) != 2 or isinstance(yearbegin, int) == False:
+                            raise ValueError("Please make sure the value is YY.")
+                    except ValueError:
+                        print("Invalid input. Please enter a valid year value.")
+                duration = 7
+                break
+            elif duration is None:
+                duration = input("Please input 'monthly' or 'weekly': ")
+            else:
+                duration = input("Error value. Please input 'monthly' or 'weekly': ")
+        print(monthbegin, daybegin, duration, yearbegin)
+
+#        if monthbegin == 2 and yearbegin is None:
+#            print("Please add year")
+#        elif monthbegin == 2 and yearbegin is not None:
+#            if yearbegin % 4 == 0: # counting only leap years from 2000-2099
+#                if daybegin in [24,25,26,27,28,29]:
+#                    dayend = daybegin + duration - 29
+#                else:
+#                    dayend = daybegin + duration
+#            monthend = monthbegin + 1
+#        elif monthbegin == 12:
+#            if daybegin in [26,27,28,29,30,31]:
+#                dayend = 
+
+#        entry = ""
+#        dt_month = datetime.strptime(str(monthbegin), '%m')
+#        dt_day = datetime.strptime(str(daybegin), '%d')
+#        formatted_month = dt_month.strftime('%B')
+#        formatted_day = dt_day.strftime('%d')
+#        if yearbegin is not None:
+#            dt_year = datetime.strptime(str(yearbegin), '%y')
+#            formatted_year = dt_year.strftime('%y')
+#        var_date = f"{formatted_month} {formatted_day}"
+#        for each_day in self.dates:
+#            if var_date == each_day:
+#                entry += f"{var_date}"
+#                print(f"{entry} lol")
+#                print(formatted_day)
+
+        
 
 url = 'jakeyprojects/blphcopy.json'
 cd = CombotData(url)
-ge = GsheetEncoder(url, "TestingSheets", "Sheet1")
+ge = GsheetEncoder(url, "TestingSheets", "Manual")
 ic = ge.Gather(ge)
 ic.gather()
-ge.data_range(3,1)
-
+ge.data_range(2, 28)
