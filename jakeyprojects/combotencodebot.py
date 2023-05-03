@@ -205,12 +205,22 @@ class GsheetEncoder(CombotData):
         self.sh = self.auth.open(gsheet_name)
         self.wks = self.sh.worksheet(gsheet_worksheet)
 
-    def data_range(self, monthbegin, daybegin, duration=None, yearbegin=None):
+    # ✅ working 99.9%
+    def start(self, monthbegin, daybegin, duration="weekly", yearbegin=None):
         while True:
             if duration == "monthly":
-                if monthbegin in [3, 5, 7, 8, 10]:
+                if monthbegin in [3, 5, 7, 8, 10] and daybegin != 31:
                     duration = 31
                     break
+                if monthbegin in [3, 5, 7, 8, 10] and daybegin == 31:
+                    while True:
+                        try:
+                            daybegin = int(input("You can't get 31 days starting from March 31st. Please input another starting day: "))
+                            if (daybegin >= 31) or (isinstance(daybegin, int) == False):
+                                raise ValueError("Nope. That's not it.")
+                            break
+                        except ValueError as error:
+                            print(error)
                 elif monthbegin in [4, 6, 9, 11]:
                     duration = 30
                     break
@@ -225,24 +235,26 @@ class GsheetEncoder(CombotData):
                         duration = 28
                         break
                 else:
-                    try:
-                        yearbegin = int(input("Please add a year value (YY): "))
-                        if len(str(yearbegin)) != 2 and isinstance(yearbegin, int) == False:
-                            raise ValueError("Please make sure the value is YY.")
-                        elif len(str(yearbegin)) != 2 or isinstance(yearbegin, int) == False:
-                            raise ValueError("Please make sure the value is YY.")
-                    except ValueError:
-                        print("Invalid input. Please enter a valid year value.")
+                    while True:
+                        try:
+                            yearbegin = int(input("Please add a year value (YY): "))
+                            if len(str(yearbegin)) != 2 and isinstance(yearbegin, int) == False:
+                                raise ValueError("Please make sure the value is YY.")
+                            elif len(str(yearbegin)) != 2 or isinstance(yearbegin, int) == False:
+                                raise ValueError("Please make sure the value is YY.")
+                            break
+                        except ValueError as error2:
+                            print(error2)
             elif duration == "weekly":
                 if monthbegin == 2 and isinstance(yearbegin, int) == False and len(str(yearbegin)) != 2:
-                    try:
-                        yearbegin = int(input("Please add a year value (YY): "))
-                        if len(str(yearbegin)) != 2 and isinstance(yearbegin, int) == False:
-                            raise ValueError("Please make sure the value is YY.")
-                        elif len(str(yearbegin)) != 2 or isinstance(yearbegin, int) == False:
-                            raise ValueError("Please make sure the value is YY.")
-                    except ValueError:
-                        print("Invalid input. Please enter a valid year value.")
+                    while True:
+                        try:
+                            yearbegin = int(input("Please add a year value (YY): "))
+                            if (len(str(yearbegin)) != 2 and isinstance(yearbegin, int) == False) or (len(str(yearbegin)) != 2) or (isinstance(yearbegin, int) == False):
+                                raise ValueError("Please make sure the value is YY.")
+                            break
+                        except ValueError as error2:
+                            print(error2)
                 duration = 7
                 break
             elif duration is None:
@@ -270,7 +282,7 @@ class GsheetEncoder(CombotData):
                     monthend = monthbegin + 2
             else:
                 monthend = monthbegin
-        if monthbegin == 2:
+        elif monthbegin == 2:
             if duration == 7 and daybegin in [22,23,24,25,26,27,28,29]:
                 if yearbegin % 4 == 0 and daybegin > 22:
                     dayend -= 29
@@ -293,28 +305,49 @@ class GsheetEncoder(CombotData):
             else:
                 monthend = monthbegin
         else:
-            monthend = monthbegin
-        print(f"Starting month: {monthbegin}, Starting day: {daybegin}, Duration: {duration}, End month: {monthend}, End day: {dayend}")
-        if yearbegin is not None:
-            print(f"Starting Year: {yearbegin}")
-        if yearend:
-            print(f"End Year: {yearend}")
-            
+            if (monthbegin in [3, 5, 7, 8, 10] and duration == 7 and daybegin in [25,26,27,28,29,30,31]) or (duration == 31):
+                dayend -= 31
+                monthend = monthbegin + 1
+            elif (monthbegin in [4, 6, 9, 11] and duration == 7 and daybegin in [24,25,26,27,28,29,30]) or (duration == 30):
+                dayend -= 30
+                monthend = monthbegin + 1
+            else:
+                monthend = monthbegin
+        if yearbegin:
+            self.data_range(monthbegin, daybegin, monthend, dayend, yearbegin)
+        else:
+            self.data_range(monthbegin, daybegin, monthend, dayend)
 
-#        entry = ""
-#        dt_month = datetime.strptime(str(monthbegin), '%m')
-#        dt_day = datetime.strptime(str(daybegin), '%d')
-#        formatted_month = dt_month.strftime('%B')
-#        formatted_day = dt_day.strftime('%d')
-#        if yearbegin is not None:
-#            dt_year = datetime.strptime(str(yearbegin), '%y')
-#            formatted_year = dt_year.strftime('%y')
-#        var_date = f"{formatted_month} {formatted_day}"
-#        for each_day in self.dates:
-#            if var_date == each_day:
-#                entry += f"{var_date}"
-#                print(f"{entry} lol")
-#                print(formatted_day)
+    
+    def data_range(self, monthbegin, daybegin, monthend, dayend, yearbegin=None):
+        letter = "A"
+        number = 1
+        notation = f"{letter}{number}"
+
+        dt_monthbegin = datetime.strptime(str(monthbegin), '%m')
+        dt_daybegin = datetime.strptime(str(daybegin), '%d')
+        dt_monthend = datetime.strptime(str(monthend), '%m')
+        dt_dayend = datetime.strptime(str(dayend), '%d')
+        formatted_monthbegin = dt_monthbegin.strftime('%B')         
+        formatted_daybegin = dt_daybegin.strftime('%d')         
+        formatted_monthend = dt_monthend.strftime('%B') 
+        formatted_dayend = dt_dayend.strftime('%d')         
+        if yearbegin is not None:
+            dt_year = datetime.strptime(str(yearbegin), '%y')
+            formatted_year = dt_year.strftime('%y')
+            print(yearbegin)
+        var_begin = f"{formatted_monthbegin} {formatted_daybegin}"
+        var_end = f"{formatted_monthend} {formatted_dayend}"
+        entry = f"{formatted_monthbegin} {formatted_daybegin} — {formatted_monthend} {formatted_dayend}"
+        if var_begin in self.dates and var_end in self.dates:
+                print("its safe")
+                if number <= self.wks.row_count:
+                    if notation.value:
+
+        # NEXT TASK: APPEND IT TO GOOGLE SHEET ROWS
+
+        
+                
 
         
 
@@ -323,4 +356,4 @@ cd = CombotData(url)
 ge = GsheetEncoder(url, "TestingSheets", "Manual")
 ic = ge.Gather(ge)
 ic.gather()
-ge.data_range(12, 31)
+ge.start(3, 4, 'weekly')
