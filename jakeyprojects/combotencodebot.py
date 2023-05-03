@@ -208,12 +208,15 @@ class GsheetEncoder(CombotData):
     def data_range(self, monthbegin, daybegin, duration=None, yearbegin=None):
         while True:
             if duration == "monthly":
-                if monthbegin in [1, 3, 5, 7, 8, 10, 12]:
+                if monthbegin in [3, 5, 7, 8, 10]:
                     duration = 31
                     break
                 elif monthbegin in [4, 6, 9, 11]:
                     duration = 30
                     break
+                elif (monthbegin == 1 and daybegin not in [29,30,31]) or (monthbegin == 12 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2) or (monthbegin == 1 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2):
+                        duration = 31
+                        break
                 elif monthbegin == 2 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2:
                     if yearbegin % 4 == 0:
                         duration = 29
@@ -246,20 +249,57 @@ class GsheetEncoder(CombotData):
                 duration = input("Please input 'monthly' or 'weekly': ")
             else:
                 duration = input("Error value. Please input 'monthly' or 'weekly': ")
-        print(monthbegin, daybegin, duration, yearbegin)
 
-#        if monthbegin == 2 and yearbegin is None:
-#            print("Please add year")
-#        elif monthbegin == 2 and yearbegin is not None:
-#            if yearbegin % 4 == 0: # counting only leap years from 2000-2099
-#                if daybegin in [24,25,26,27,28,29]:
-#                    dayend = daybegin + duration - 29
-#                else:
-#                    dayend = daybegin + duration
-#            monthend = monthbegin + 1
-#        elif monthbegin == 12:
-#            if daybegin in [26,27,28,29,30,31]:
-#                dayend = 
+        # assign monthend and dayend considering if dayend overlaps to next month and monthend overlaps to next year
+        dayend = daybegin + duration
+        if monthbegin == 1:
+            if (duration == 7 and daybegin in [25,26,27,28,29,30,31]) or (duration == 31 and daybegin not in [29,30,31]):
+                dayend -= 31 #31 days from Jan.
+                monthend = monthbegin + 1
+            elif duration == 31 and daybegin in [29,30,31]:
+                if yearbegin % 4 == 0:
+                    dayend -= 29 #29 days from February (leap year)
+                    monthend = monthbegin + 1
+                    if daybegin > 29:
+                        dayend -= duration
+                        monthend += 1
+                    else:
+                        dayend = daybegin
+                else:
+                    dayend -= duration + 28  #28 days from February
+                    monthend = monthbegin + 2
+            else:
+                monthend = monthbegin
+        if monthbegin == 2:
+            if duration == 7 and daybegin in [22,23,24,25,26,27,28,29]:
+                if yearbegin % 4 == 0 and daybegin > 22:
+                    dayend -= 29
+                    monthend = monthbegin + 1
+                elif yearbegin % 4 == 0 and daybegin == 22:
+                    monthend = monthbegin
+                elif yearbegin % 4 != 0:
+                    dayend -= 28
+                    monthend = monthbegin + 1
+            elif duration == 28 or duration == 29:
+                dayend -= duration
+                monthend = monthbegin + 1
+            else:
+                monthend = monthbegin
+        elif monthbegin == 12:
+            if (duration == 7 and daybegin in [25,26,27,28,29,30,31]) or (duration == 31):
+                dayend -= 31
+                monthend = monthbegin - 11 #reset back to january
+                yearend = yearbegin + 1
+            else:
+                monthend = monthbegin
+        else:
+            monthend = monthbegin
+        print(f"Starting month: {monthbegin}, Starting day: {daybegin}, Duration: {duration}, End month: {monthend}, End day: {dayend}")
+        if yearbegin is not None:
+            print(f"Starting Year: {yearbegin}")
+        if yearend:
+            print(f"End Year: {yearend}")
+            
 
 #        entry = ""
 #        dt_month = datetime.strptime(str(monthbegin), '%m')
@@ -283,4 +323,4 @@ cd = CombotData(url)
 ge = GsheetEncoder(url, "TestingSheets", "Manual")
 ic = ge.Gather(ge)
 ic.gather()
-ge.data_range(2, 28)
+ge.data_range(12, 31)
