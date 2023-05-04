@@ -318,11 +318,12 @@ class GsheetEncoder(CombotData):
         else:
             self.data_range(monthbegin, daybegin, monthend, dayend)
 
-    
+    #✅
     def data_range(self, monthbegin, daybegin, monthend, dayend, yearbegin=None):
         letter = "A"
         number = 1
         notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
 
         dt_monthbegin = datetime.strptime(str(monthbegin), '%m')
         dt_daybegin = datetime.strptime(str(daybegin), '%d')
@@ -340,15 +341,20 @@ class GsheetEncoder(CombotData):
         var_end = f"{formatted_monthend} {formatted_dayend}"
         entry = f"{formatted_monthbegin} {formatted_daybegin} — {formatted_monthend} {formatted_dayend}"
         if var_begin in self.dates and var_end in self.dates:
-                print("its safe")
-                if number <= self.wks.row_count:
-                    if notation.value:
-
-        # NEXT TASK: APPEND IT TO GOOGLE SHEET ROWS
-
-        
-                
-
+            print("loading...")
+            if number <= self.wks.row_count:
+                while cell.value is not None:
+                    number += 1
+                    if number > self.wks.row_count:
+                        break
+                if number > self.wks.row_count:
+                    self.wks.add_rows(1)
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) 
+                self.wks.update(notation, entry)
+                print("Done!")
+        else:
+            print("Beginning or end dates cannot be found.")
         
 
 url = 'jakeyprojects/blphcopy.json'
