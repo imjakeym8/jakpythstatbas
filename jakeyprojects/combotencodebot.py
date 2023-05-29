@@ -8,12 +8,13 @@ class CombotData:
     def __init__(self, combotfile):
         self.combotfile = combotfile
         self.data = None
-        self.__open()
+        self.open()
         self.dates = []
         self.daily_messages = []
         self.hourly_messages = {}
         self.weekday_messages = {"Sunday": 0, "Monday": 0, "Tuesday": 0, "Wednesday": 0, "Thursday": 0, "Friday": 0, "Saturday": 0}
         self.ADM = 0
+        self.daily_active_users = []
         self.DAU = 0
         self.most_active_hours = []
         self.least_active_hours = []
@@ -21,12 +22,12 @@ class CombotData:
         self.least_active_day = None
 
     # ✅
-    def __open(self):
+    def open(self):
         with open(self.combotfile) as f:
             self.data = json.load(f)
 
     # ✅
-    def _format(self):
+    def format(self):
         new_dict = {}
         for key, value in self.data["active_hours"].items():
             hour_min = key
@@ -48,7 +49,7 @@ class CombotData:
             each_item[1]["total_messages_daily"] = each_item[1].pop("m")
             each_item.insert(1, formatted_weekday)
 
-        with open(url, 'w') as w:
+        with open(self.combotfile, 'w') as w:
             json.dump(self.data, w, indent=4)
 
     # ✅
@@ -56,9 +57,9 @@ class CombotData:
         def __init__(self, outer_instance):
             self.outer_instance = outer_instance
             self.data = None
-            self.__open()
+            self.open()
 
-        def __open(self):
+        def open(self):
             with open(self.outer_instance.combotfile) as f:
                 self.data = json.load(f)
 
@@ -73,13 +74,12 @@ class CombotData:
         def get_ADM(self):
             if self.outer_instance.daily_messages == []:
                 self.get_d_messages()
-            self.outer_instance.ADM = int(int(fsum(self.daily_messages))/len(self.outer_instance.daily_messages))
+            self.outer_instance.ADM = int(int(fsum(self.outer_instance.daily_messages))/len(self.outer_instance.daily_messages))
 
         def get_DAU(self):
-            list_DAU = []
             for each_item in self.data["time_series"]:
-                list_DAU.append(each_item[2]["active_user_daily"])
-            new_DAU = round(int(fsum(list_DAU))/len(list_DAU))
+                self.outer_instance.daily_active_users.append(each_item[2]["active_user_daily"])
+            new_DAU = round(int(fsum(self.outer_instance.daily_active_users))/len(self.outer_instance.daily_active_users))
             self.outer_instance.DAU = new_DAU
 
         def get_h_messages(self):
@@ -148,24 +148,15 @@ class CombotData:
             self.get_d_messages()
             self.get_h_messages()
             self.get_wd_messages()
-            self.get_ADM
-            self.get_DAU
+            self.get_ADM()
+            self.get_DAU()
             self.get_most_hours()
             self.get_least_hours()
             self.get_most_active_day()
             self.get_least_active_day()
             if showdata == True:
                 self.showdata()
-#            while True:
-#                showdata = input("Show data? Y or N? ")
-#                if showdata == 'Y':
-#                    self.showdata()
-#                    break
-#                elif showdata == 'N':
-#                    break
-#                else:
-#                    print("Invalid input.")
-
+                
         # ✅
         def showdata(self):
             if self.outer_instance.dates:
@@ -174,6 +165,8 @@ class CombotData:
                 print(self.outer_instance.daily_messages)
             if self.outer_instance.ADM:
                 print(self.outer_instance.ADM)
+            if self.outer_instance.daily_active_users:
+                print(self.outer_instance.daily_active_users)
             if self.outer_instance.DAU:
                 print(self.outer_instance.DAU)
             if self.outer_instance.hourly_messages:
@@ -193,46 +186,45 @@ class CombotData:
 
 # 🚧👷🚧
 class GsheetEncoder(CombotData):
-    def __init__(self, combotfile, gsheet_name=None, gsheet_worksheet=None):
+    def __init__(self, combotfile, gsheet_name=None, gsheet_worksheet=None, do_format=False):
         super().__init__(combotfile)
         self.auth = service_account()
         self.sh = None
         self.wks = None
+        self.var_begin = None
+        self.var_end = None
         self.access_gsheet(gsheet_name, gsheet_worksheet)
+        self.open()
+        if do_format == True:
+            self.format()
+        self.Gather(self).gather() #Need further revision if things go wrong
+        
 
     # pending 🧑‍💻
     def access_gsheet(self, gsheet_name, gsheet_worksheet):
         self.sh = self.auth.open(gsheet_name)
         self.wks = self.sh.worksheet(gsheet_worksheet)
 
-    # ✅ working 99.9%
+    # open for tweaking and revisions 👷✅
+    # duration is subtracted by 1 for all cases since we are including daybegin and in the iteration
     def start(self, monthbegin, daybegin, duration="weekly", yearbegin=None):
         while True:
             if duration == "monthly":
-                if monthbegin in [3, 5, 7, 8, 10] and daybegin != 31:
-                    duration = 31
-                    break
-                if monthbegin in [3, 5, 7, 8, 10] and daybegin == 31:
-                    while True:
-                        try:
-                            daybegin = int(input("You can't get 31 days starting from March 31st. Please input another starting day: "))
-                            if (daybegin >= 31) or (isinstance(daybegin, int) == False):
-                                raise ValueError("Nope. That's not it.")
-                            break
-                        except ValueError as error:
-                            print(error)
-                elif monthbegin in [4, 6, 9, 11]:
+                if monthbegin in [3, 5, 7, 8, 10]:
                     duration = 30
                     break
-                elif (monthbegin == 1 and daybegin not in [29,30,31]) or (monthbegin == 12 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2) or (monthbegin == 1 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2):
-                        duration = 31
+                elif monthbegin in [4, 6, 9, 11]:
+                    duration = 29
+                    break
+                elif (monthbegin == 1 and daybegin not in [29,30,31]) or (monthbegin == 12 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2) or (monthbegin == 1 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2): #additional code to filter some values that don't need yearbegin to proceed
+                        duration = 30
                         break
                 elif monthbegin == 2 and isinstance(yearbegin, int) == True and len(str(yearbegin)) == 2:
                     if yearbegin % 4 == 0:
-                        duration = 29
+                        duration = 28
                         break
                     else:
-                        duration = 28
+                        duration = 27
                         break
                 else:
                     while True:
@@ -243,8 +235,8 @@ class GsheetEncoder(CombotData):
                             elif len(str(yearbegin)) != 2 or isinstance(yearbegin, int) == False:
                                 raise ValueError("Please make sure the value is YY.")
                             break
-                        except ValueError as error2:
-                            print(error2)
+                        except ValueError as error:
+                            print(error)
             elif duration == "weekly":
                 if monthbegin == 2 and isinstance(yearbegin, int) == False and len(str(yearbegin)) != 2:
                     while True:
@@ -255,7 +247,7 @@ class GsheetEncoder(CombotData):
                             break
                         except ValueError as error2:
                             print(error2)
-                duration = 7
+                duration = 6
                 break
             elif duration is None:
                 duration = input("Please input 'monthly' or 'weekly': ")
@@ -265,60 +257,69 @@ class GsheetEncoder(CombotData):
         # assign monthend and dayend considering if dayend overlaps to next month and monthend overlaps to next year
         dayend = daybegin + duration
         if monthbegin == 1:
-            if (duration == 7 and daybegin in [25,26,27,28,29,30,31]) or (duration == 31 and daybegin not in [29,30,31]):
+            if (duration == 6 and daybegin in [26,27,28,29,30,31]) or (duration == 30 and daybegin not in [1,30,31]):
                 dayend -= 31 #31 days from Jan.
                 monthend = monthbegin + 1
-            elif duration == 31 and daybegin in [29,30,31]:
+            elif duration == 30 and daybegin in [30,31]:
+                monthend = monthbegin + 1
                 if yearbegin % 4 == 0:
-                    dayend -= 29 #29 days from February (leap year)
-                    monthend = monthbegin + 1
-                    if daybegin > 29:
-                        dayend -= duration
+                    if daybegin == 30:
+                        dayend -= 31 #31 days from Jan.
+                    elif daybegin == 31:
+                        dayend -= 31 + 29 #31 days from Jan. and 29 days from February since we will loop another month
                         monthend += 1
-                    else:
-                        dayend = daybegin
-                else:
-                    dayend -= duration + 28  #28 days from February
-                    monthend = monthbegin + 2
-            else:
+                elif yearbegin % 4 != 0:
+                    dayend -= 31 + 28  #31 days from Jan. and 28 days from February
+                    monthend += 1
+            elif (daybegin <= 25 and duration == 6) or (duration == 30 and daybegin == 1):
                 monthend = monthbegin
         elif monthbegin == 2:
-            if duration == 7 and daybegin in [22,23,24,25,26,27,28,29]:
-                if yearbegin % 4 == 0 and daybegin > 22:
-                    dayend -= 29
+            if duration == 6 and daybegin in [23,24,25,26,27,28,29]:
+                if yearbegin % 4 == 0 and daybegin > 23:
+                    dayend -= 29 #29 days of Feb.
                     monthend = monthbegin + 1
-                elif yearbegin % 4 == 0 and daybegin == 22:
+                elif yearbegin % 4 == 0 and daybegin == 23:
                     monthend = monthbegin
                 elif yearbegin % 4 != 0:
-                    dayend -= 28
+                    dayend -= 28 #28 days of Feb.
                     monthend = monthbegin + 1
-            elif duration == 28 or duration == 29:
+            elif duration in [27,28]:
                 dayend -= duration
                 monthend = monthbegin + 1
-            else:
+            elif (daybegin <= 22 and duration == 6) or (duration in [27,28] and daybegin == 1):
                 monthend = monthbegin
         elif monthbegin == 12:
-            if (duration == 7 and daybegin in [25,26,27,28,29,30,31]) or (duration == 31):
-                dayend -= 31
+            if (duration == 6 and daybegin in [26,27,28,29,30,31]) or (duration == 30 and daybegin != 1):
+                dayend -= 31 #31 days from Dec.
                 monthend = monthbegin - 11 #reset back to january
                 yearend = yearbegin + 1
-            else:
+            elif (daybegin <= 25 and duration == 6) or (duration == 30 and daybegin == 1):
                 monthend = monthbegin
         else:
-            if (monthbegin in [3, 5, 7, 8, 10] and duration == 7 and daybegin in [25,26,27,28,29,30,31]) or (duration == 31):
-                dayend -= 31
+            if (monthbegin in [3, 5, 7, 8, 10] and duration == 6 and daybegin in [26,27,28,29,30,31]) or (duration == 30 and daybegin != 1):
+                dayend -= 31 #31 days from the months
                 monthend = monthbegin + 1
-            elif (monthbegin in [4, 6, 9, 11] and duration == 7 and daybegin in [24,25,26,27,28,29,30]) or (duration == 30):
-                dayend -= 30
+            elif (monthbegin in [4, 6, 9, 11] and duration == 6 and daybegin in [25,26,27,28,29,30]) or (duration == 29 and daybegin != 1):
+                dayend -= 30 #30 days from the months
                 monthend = monthbegin + 1
-            else:
+            elif (monthbegin in [3, 5, 7, 8, 10] and duration == 6 and daybegin <= 25) or (monthbegin in [4, 6, 9, 11] and duration == 6 and daybegin <= 24) or (duration in [29,30] and daybegin == 1):
                 monthend = monthbegin
         if yearbegin:
             self.data_range(monthbegin, daybegin, monthend, dayend, yearbegin)
         else:
             self.data_range(monthbegin, daybegin, monthend, dayend)
+        self.total_messages(duration)
+        self.average_daily_messages(duration)
+        self.active_users(duration)
+        self.m_active_hours()
+        self.l_active_hours()
+        self.m_active_day()
+        self.l_active_day()
 
     #✅
+    # CAUTION ⚠️
+    # this function can be ran multiple times as long as there is an existing row, if its done without, the last row will be OVERWRITTEN.
+    # this function, if ran only once, will update and can append rows if needed without issues.
     def data_range(self, monthbegin, daybegin, monthend, dayend, yearbegin=None):
         letter = "A"
         number = 1
@@ -336,30 +337,205 @@ class GsheetEncoder(CombotData):
         if yearbegin is not None:
             dt_year = datetime.strptime(str(yearbegin), '%y')
             formatted_year = dt_year.strftime('%y')
-            print(yearbegin)
-        var_begin = f"{formatted_monthbegin} {formatted_daybegin}"
-        var_end = f"{formatted_monthend} {formatted_dayend}"
+            #print(yearbegin)
+        self.var_begin = f"{formatted_monthbegin} {formatted_daybegin}"
+        self.var_end = f"{formatted_monthend} {formatted_dayend}"
         entry = f"{formatted_monthbegin} {formatted_daybegin} — {formatted_monthend} {formatted_dayend}"
-        if var_begin in self.dates and var_end in self.dates:
-            print("loading...")
+        #print(self.var_begin, self.var_end)
+        if self.var_begin in self.dates and self.var_end in self.dates:
+            #print("loading...")
             if number <= self.wks.row_count:
                 while cell.value is not None:
                     number += 1
+                    notation = f"{letter}{number}"
+                    cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
                     if number > self.wks.row_count:
                         break
-                if number > self.wks.row_count:
-                    self.wks.add_rows(1)
-                notation = f"{letter}{number}"
-                cell = self.wks.acell(notation) 
-                self.wks.update(notation, entry)
-                print("Done!")
+            #print(f"We have added another entry at row {number}.")
+            if number > self.wks.row_count:
+                self.wks.add_rows(1)
+            notation = f"{letter}{number}"
+            cell = self.wks.acell(notation) 
+            self.wks.update(notation, entry)
+            #print("Done!")
         else:
             print("Beginning or end dates cannot be found.")
-        
 
-url = 'jakeyprojects/blphcopy.json'
-cd = CombotData(url)
-ge = GsheetEncoder(url, "TestingSheets", "Manual")
-ic = ge.Gather(ge)
-ic.gather()
-ge.start(3, 4, 'weekly')
+
+    def total_messages(self, duration):
+        letter = "B"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+
+        index = 0
+        for each_date in self.dates:
+            if self.var_begin == each_date:
+                sum_daily_messages = int(fsum(self.daily_messages[index:index + duration + 1])) # added 1 to make sure the last item is called
+            index += 1
+
+        #print("loading...")
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, sum_daily_messages)
+        #print("Done!")
+        
+    def average_daily_messages(self, duration):
+        letter = "C"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
+
+        index = 0
+        for each_date in self.dates:
+            if self.var_begin == each_date:
+                sum_ADM = int(int(fsum(self.daily_messages[index:index + duration + 1]))/len(self.daily_messages))
+
+        #print("loading...")
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, sum_ADM)
+        #print("Done!")
+    
+    def active_users(self, duration):
+        letter = "F"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
+
+        index = 0
+        for each_date in self.dates:
+            if self.var_begin == each_date:
+                sum_DAU = round(int(fsum(self.daily_active_users[index:index + duration + 1]))/len(self.daily_active_users))
+                #print(sum_DAU)
+
+        #print("loading...")
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, sum_DAU)
+        #print("Done!")
+
+    # not flexible
+    def m_active_hours(self):
+        letter = "H"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
+
+        converted_str = ', '.join(self.most_active_hours)
+
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, converted_str)
+        #print("Done!")
+    
+    # not flexible
+    def l_active_hours(self):
+        letter = "I"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
+
+        converted_str = ', '.join(self.least_active_hours)
+
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, converted_str)
+        #print("Done!")
+    
+    #not flexible
+    def m_active_day(self):
+        letter = "J"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
+
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, self.most_active_day)
+        #print("Done!")
+
+    #not flexible
+    def l_active_day(self):
+        letter = "K"
+        number = 1
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation)
+
+        if number <= self.wks.row_count:
+            while cell.value is not None:
+                number += 1
+                notation = f"{letter}{number}"
+                cell = self.wks.acell(notation) if number <= self.wks.row_count else cell
+                if number > self.wks.row_count:
+                    break
+        #print(f"We have added another entry at row {number}.")
+        if number > self.wks.row_count:
+            self.wks.add_rows(1)
+        notation = f"{letter}{number}"
+        cell = self.wks.acell(notation) 
+        self.wks.update(notation, self.least_active_day)
+        print("Done!")
+
+#import threading and os
+#for every existing combot file, execute the whole function SIMULTANEOUSLY.
