@@ -1,0 +1,346 @@
+{
+    "total_messages": 8958,
+    "hourly_messages": 12,
+    "daily_messages": 289,
+    "daily_users": 89,
+    "active_users": 1098,
+    "new_users": 1984,
+    "active_hours": {
+        "12:00 AM": 154,
+        "01:00 AM": 124,
+        "02:00 AM": 89,
+        "03:00 AM": 105,
+        "04:00 AM": 142,
+        "05:00 AM": 290,
+        "06:00 AM": 489,
+        "07:00 AM": 422,
+        "08:00 AM": 504,
+        "09:00 AM": 521,
+        "10:00 AM": 323,
+        "11:00 AM": 389,
+        "12:00 PM": 404,
+        "01:00 PM": 506,
+        "02:00 PM": 485,
+        "03:00 PM": 549,
+        "04:00 PM": 519,
+        "05:00 PM": 471,
+        "06:00 PM": 615,
+        "07:00 PM": 485,
+        "08:00 PM": 507,
+        "09:00 PM": 435,
+        "10:00 PM": 280,
+        "11:00 PM": 150
+    },
+    "time_series": [
+        [
+            "May 01 2023",
+            "Monday",
+            {
+                "active_user_daily": 27,
+                "new_user_daily": 25,
+                "total_user_daily": 32744,
+                "total_messages_daily": 41
+            }
+        ],
+        [
+            "May 02 2023",
+            "Tuesday",
+            {
+                "active_user_daily": 25,
+                "new_user_daily": 23,
+                "total_user_daily": 32658,
+                "total_messages_daily": 40
+            }
+        ],
+        [
+            "May 03 2023",
+            "Wednesday",
+            {
+                "active_user_daily": 118,
+                "new_user_daily": 430,
+                "total_user_daily": 32899,
+                "total_messages_daily": 157
+            }
+        ],
+        [
+            "May 04 2023",
+            "Thursday",
+            {
+                "active_user_daily": 108,
+                "new_user_daily": 386,
+                "total_user_daily": 33259,
+                "total_messages_daily": 149
+            }
+        ],
+        [
+            "May 05 2023",
+            "Friday",
+            {
+                "active_user_daily": 27,
+                "new_user_daily": 75,
+                "total_user_daily": 33264,
+                "total_messages_daily": 60
+            }
+        ],
+        [
+            "May 06 2023",
+            "Saturday",
+            {
+                "active_user_daily": 27,
+                "new_user_daily": 60,
+                "total_user_daily": 33228,
+                "total_messages_daily": 51
+            }
+        ],
+        [
+            "May 07 2023",
+            "Sunday",
+            {
+                "active_user_daily": 37,
+                "new_user_daily": 86,
+                "total_user_daily": 33228,
+                "total_messages_daily": 73
+            }
+        ],
+        [
+            "May 08 2023",
+            "Monday",
+            {
+                "active_user_daily": 27,
+                "new_user_daily": 41,
+                "total_user_daily": 33169,
+                "total_messages_daily": 131
+            }
+        ],
+        [
+            "May 09 2023",
+            "Tuesday",
+            {
+                "active_user_daily": 32,
+                "new_user_daily": 35,
+                "total_user_daily": 33117,
+                "total_messages_daily": 83
+            }
+        ],
+        [
+            "May 10 2023",
+            "Wednesday",
+            {
+                "active_user_daily": 50,
+                "new_user_daily": 47,
+                "total_user_daily": 33071,
+                "total_messages_daily": 127
+            }
+        ],
+        [
+            "May 11 2023",
+            "Thursday",
+            {
+                "active_user_daily": 99,
+                "new_user_daily": 37,
+                "total_user_daily": 33009,
+                "total_messages_daily": 215
+            }
+        ],
+        [
+            "May 12 2023",
+            "Friday",
+            {
+                "active_user_daily": 56,
+                "new_user_daily": 35,
+                "total_user_daily": 32951,
+                "total_messages_daily": 188
+            }
+        ],
+        [
+            "May 13 2023",
+            "Saturday",
+            {
+                "active_user_daily": 48,
+                "new_user_daily": 32,
+                "total_user_daily": 32908,
+                "total_messages_daily": 117
+            }
+        ],
+        [
+            "May 14 2023",
+            "Sunday",
+            {
+                "active_user_daily": 53,
+                "new_user_daily": 36,
+                "total_user_daily": 32865,
+                "total_messages_daily": 130
+            }
+        ],
+        [
+            "May 15 2023",
+            "Monday",
+            {
+                "active_user_daily": 65,
+                "new_user_daily": 25,
+                "total_user_daily": 32810,
+                "total_messages_daily": 161
+            }
+        ],
+        [
+            "May 16 2023",
+            "Tuesday",
+            {
+                "active_user_daily": 58,
+                "new_user_daily": 54,
+                "total_user_daily": 32768,
+                "total_messages_daily": 191
+            }
+        ],
+        [
+            "May 17 2023",
+            "Wednesday",
+            {
+                "active_user_daily": 62,
+                "new_user_daily": 59,
+                "total_user_daily": 32709,
+                "total_messages_daily": 213
+            }
+        ],
+        [
+            "May 18 2023",
+            "Thursday",
+            {
+                "active_user_daily": 65,
+                "new_user_daily": 33,
+                "total_user_daily": 32637,
+                "total_messages_daily": 197
+            }
+        ],
+        [
+            "May 19 2023",
+            "Friday",
+            {
+                "active_user_daily": 110,
+                "new_user_daily": 40,
+                "total_user_daily": 32594,
+                "total_messages_daily": 369
+            }
+        ],
+        [
+            "May 20 2023",
+            "Saturday",
+            {
+                "active_user_daily": 145,
+                "new_user_daily": 52,
+                "total_user_daily": 32543,
+                "total_messages_daily": 399
+            }
+        ],
+        [
+            "May 21 2023",
+            "Sunday",
+            {
+                "active_user_daily": 134,
+                "new_user_daily": 40,
+                "total_user_daily": 32446,
+                "total_messages_daily": 454
+            }
+        ],
+        [
+            "May 22 2023",
+            "Monday",
+            {
+                "active_user_daily": 139,
+                "new_user_daily": 38,
+                "total_user_daily": 32338,
+                "total_messages_daily": 614
+            }
+        ],
+        [
+            "May 23 2023",
+            "Tuesday",
+            {
+                "active_user_daily": 183,
+                "new_user_daily": 34,
+                "total_user_daily": 32315,
+                "total_messages_daily": 545
+            }
+        ],
+        [
+            "May 24 2023",
+            "Wednesday",
+            {
+                "active_user_daily": 129,
+                "new_user_daily": 63,
+                "total_user_daily": 32234,
+                "total_messages_daily": 533
+            }
+        ],
+        [
+            "May 25 2023",
+            "Thursday",
+            {
+                "active_user_daily": 150,
+                "new_user_daily": 44,
+                "total_user_daily": 32151,
+                "total_messages_daily": 518
+            }
+        ],
+        [
+            "May 26 2023",
+            "Friday",
+            {
+                "active_user_daily": 143,
+                "new_user_daily": 46,
+                "total_user_daily": 32063,
+                "total_messages_daily": 515
+            }
+        ],
+        [
+            "May 27 2023",
+            "Saturday",
+            {
+                "active_user_daily": 157,
+                "new_user_daily": 42,
+                "total_user_daily": 32002,
+                "total_messages_daily": 560
+            }
+        ],
+        [
+            "May 28 2023",
+            "Sunday",
+            {
+                "active_user_daily": 122,
+                "new_user_daily": 22,
+                "total_user_daily": 31912,
+                "total_messages_daily": 471
+            }
+        ],
+        [
+            "May 29 2023",
+            "Monday",
+            {
+                "active_user_daily": 144,
+                "new_user_daily": 28,
+                "total_user_daily": 31817,
+                "total_messages_daily": 572
+            }
+        ],
+        [
+            "May 30 2023",
+            "Tuesday",
+            {
+                "active_user_daily": 128,
+                "new_user_daily": 27,
+                "total_user_daily": 31720,
+                "total_messages_daily": 844
+            }
+        ],
+        [
+            "May 31 2023",
+            "Wednesday",
+            {
+                "active_user_daily": 81,
+                "new_user_daily": 8,
+                "total_user_daily": 31668,
+                "total_messages_daily": 240
+            }
+        ]
+    ]
+}
